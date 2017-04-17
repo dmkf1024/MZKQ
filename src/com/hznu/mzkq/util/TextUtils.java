@@ -1,6 +1,6 @@
 package com.hznu.mzkq.util;
 
-public class TextUtil {
+public class TextUtils {
 
 	/**
 	 * 判断字符串是否为空

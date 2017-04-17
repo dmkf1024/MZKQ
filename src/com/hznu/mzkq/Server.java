@@ -1,12 +1,12 @@
 package com.hznu.mzkq;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.hznu.mzkq.util.NetUtil;
+import com.hznu.mzkq.util.NetUtils;
+import com.hznu.mzkq.util.TimeUtils;
 
 /**
  * 基于TCP协议的Socket通信，实现用户通信 服务端
@@ -24,12 +24,12 @@ public class Server {
 	public static void main(String[] args) {
 		try {
 			// 创建一个服务端Socket，即ServerSocket，指定绑定的端口，并监听次端口
-			ServerSocket serverSocket = new ServerSocket(8181);
+			ServerSocket serverSocket = new ServerSocket(8989);
 			Socket socket = null;
 
 			// 记录客户端的数量
 			int count = 0;
-			NetUtil.printIPInfo();
+			NetUtils.printIPInfo();
 			System.out.println("服务器即将启动，等待客户端连接。。。");
 			// 循环监听等待客户端的连接
 			while (true) {
@@ -45,7 +45,6 @@ public class Server {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

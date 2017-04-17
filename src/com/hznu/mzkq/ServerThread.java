@@ -10,6 +10,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.DecimalFormat;
 
+import com.hznu.mzkq.db.DBUtils;
+import com.hznu.mzkq.util.TimeUtils;
+
 public class ServerThread extends Thread {
 
 	// 与本线程相关的Socket
@@ -22,11 +25,16 @@ public class ServerThread extends Thread {
 
 	// 线程执行的操作，响应客户端的请求
 	public void run() {
+		// 连接数据库
+//		DBUtils.connect();
+		
 		InputStream is = null;
 		InputStreamReader isr = null;
 		BufferedReader br = null;
 		OutputStream os = null;
+		
 		PrintWriter pw = null;
+		
 		try {
 			is = socket.getInputStream();
 			// 字节流转字符流，提高传输效率
@@ -44,7 +52,14 @@ public class ServerThread extends Thread {
 				received += formatData(data);
 				if (count == 4) {
 					count = 0;
+//					received = formatCardNum(received);
+
+					String curTime = TimeUtils.getCurTime();
+					System.out.println("\n--------------------------");
+					System.out.println("刷卡时间：" + curTime);
 					System.out.println("接收到的卡号为：" + received);
+					System.out.println("卡号" + received + "考勤记录已插入数据库");
+//					DBUtils.insert("1011", received);
 					received = "";
 				}
 				// System.out.println("received---" + data);
@@ -86,10 +101,25 @@ public class ServerThread extends Thread {
 				if (socket != null) {
 					socket.close();
 				}
+				
+				DBUtils.releaseConnection();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * 按格式解析卡号
+	 * @return
+	 */
+	private String formatCardNum(String str) {
+		if (str.length() == 8) {
+			String left = str.substring(0, 4);
+			String right = str.substring(4);
+			return right + left;
+		}
+		return str;
 	}
 
 	/**

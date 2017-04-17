@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.hznu.mzkq.Server
+Class-Path: jar/mysql-connector-java-5.1.41-bin.jar
+Created-By: wangjie
